@@ -15,29 +15,44 @@ import {
   Text,
   StatusBar,
   Image,
-  Dimensions
+  Dimensions,
+  FlatList
 } from "react-native";
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions
-} from "react-native/Libraries/NewAppScreen";
-
 const App = () => {
+  const fotos = [
+    {
+      id: 1,
+      usuario: "Fulano"
+    },
+    {
+      id: 2,
+      usuario: "Ciclano"
+    },
+    {
+      id: 3,
+      usuario: "Juarez"
+    }
+  ];
+
   return (
-    <View>
-      <Text>Teste</Text>
-      <Image
-        source={require("./resources/img/background.jpg")}
-        style={{
-          height: Dimensions.get("screen").width,
-          width: Dimensions.get("screen").width
-        }}
-      />
-    </View>
+    <FlatList
+      style={{ marginTop: 20 }} 
+      keyExtractor={(item, i) => String(i)}
+      data={fotos}
+      renderItem={({ item }) => (
+        <View>
+          <Text>{item.usuario}</Text>
+          <Image
+            source={require("./resources/img/background.jpg")}
+            style={{
+              height: Dimensions.get("screen").width,
+              width: Dimensions.get("screen").width
+            }}
+          />
+        </View>
+      )}
+    />
   );
 };
 
