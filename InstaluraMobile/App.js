@@ -37,18 +37,21 @@ const App = () => {
 
   return (
     <FlatList
-      style={{ marginTop: 20 }} 
+      style={styles.container} 
       keyExtractor={(item, i) => String(i)}
       data={fotos}
       renderItem={({ item }) => (
         <View>
-          <Text>{item.usuario}</Text>
+          <View style={styles.header}>
+            <Image
+              source={require("./resources/img/background.jpg")}
+              style={styles.profilePic}
+            />
+            <Text>{item.usuario}</Text>
+          </View>
           <Image
             source={require("./resources/img/background.jpg")}
-            style={{
-              height: Dimensions.get("screen").width,
-              width: Dimensions.get("screen").width
-            }}
+            style={styles.postImg}
           />
         </View>
       )}
@@ -56,8 +59,25 @@ const App = () => {
   );
 };
 
-// const styles = StyleSheet.create({
-
-// })
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 20
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 10
+  },
+  profilePic: {
+    height: 40,
+    width: 40,
+    margin: 10,
+    borderRadius: 20
+  },
+  postImg: {
+    height: Dimensions.get("screen").width,
+    width: Dimensions.get("screen").width
+  }
+})
 
 export default App;
