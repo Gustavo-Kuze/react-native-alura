@@ -6,18 +6,13 @@
  * @flow
  */
 
-import React, { Fragment } from "react";
+import React from "react";
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Image,
   Dimensions,
   FlatList
 } from "react-native";
+import Post from "./src/components/Post";
 
 const App = () => {
   const fotos = [
@@ -41,43 +36,16 @@ const App = () => {
       keyExtractor={(item, i) => String(i)}
       data={fotos}
       renderItem={({ item }) => (
-        <View>
-          <View style={styles.header}>
-            <Image
-              source={require("./resources/img/background.jpg")}
-              style={styles.profilePic}
-            />
-            <Text>{item.usuario}</Text>
-          </View>
-          <Image
-            source={require("./resources/img/background.jpg")}
-            style={styles.postImg}
-          />
-        </View>
+        <Post item={item}/>
       )}
     />
-  );
+  );   
 };
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 20
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 10
-  },
-  profilePic: {
-    height: 40,
-    width: 40,
-    margin: 10,
-    borderRadius: 20
-  },
-  postImg: {
-    height: Dimensions.get("screen").width,
-    width: Dimensions.get("screen").width
-  }
 })
 
 export default App;
