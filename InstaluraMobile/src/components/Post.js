@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -37,6 +37,10 @@ const Post = props => {
       }
     ]
   });
+
+  const [currentCommentValue, setCurrentCommentValue] = useState("");
+
+  let inputComentario = useRef(null);
 
   const loadLikeImage = liked => (liked ? likedImg : emptyHeartImg);
 
@@ -77,6 +81,29 @@ const Post = props => {
       </View>
     ));
 
+  const addComment = () => {
+    if (currentCommentValue) {
+      const novaLista = [
+        ...foto.comentarios,
+        {
+          id: currentCommentValue,
+          login: "meuUser",
+          texto: currentCommentValue
+        }
+      ];
+
+      const fotoAtualizada = {
+        ...foto,
+        comentarios: novaLista
+      };
+
+      setFoto(fotoAtualizada);
+
+      inputComentario.current.clear();
+      setCurrentCommentValue("");
+    }
+  };
+
   return (
     <View>
       <View style={styles.header}>
@@ -91,14 +118,16 @@ const Post = props => {
         {renderLikesCount()}
         {renderSubtitle()}
         {renderComments()}
-        <View
-        style={styles.commentBox}
-        >
+        <View style={styles.commentBox}>
           <TextInput
             style={styles.input}
             placeholder="Adicione um comentário"
+            ref={inputComentario}
+            onChangeText={text => setCurrentCommentValue(text)}
           />
-          <Image source={sendImg} style={styles.send} />
+          <TouchableOpacity onPress={() => addComment()}>
+            <Image source={sendImg} style={styles.send} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>
