@@ -19,14 +19,16 @@ import emptyHeartImg from "../../resources/img/s2.png";
 import likedImg from "../../resources/img/s2-checked.png";
 
 const Post = props => {
-  const [foto, setFoto] = useState(props.foto);
+  const [foto, setFoto] = useState({ ...props.foto, likers: [{}] });
 
   const loadLikeImage = liked => (liked ? likedImg : emptyHeartImg);
 
-  const renderLikesCount = () =>
-    foto.likers.length > 0 ? (
+  const renderLikesCount = () => {
+    if (!foto.likers) return null;
+    return foto.likers.length > 0 ? (
       <Text style={styles.likes}>{foto.likers.length} curtidas</Text>
     ) : null;
+  };
 
   const renderComment = () =>
     foto.comentario !== "" ? (
@@ -36,6 +38,20 @@ const Post = props => {
       </View>
     ) : null;
 
+  const like = () => {
+    let novaLista = [];
+    if (!foto.likeada) novaLista = [...foto.likers, { login: "meuUser" }];
+    else novaLista = foto.likers.filter(liker => liker.login !== "meuUser");
+
+    const fotoAtualizada = {
+      ...foto,
+      likeada: !foto.likeada,
+      likers: novaLista
+    };
+
+    setFoto(fotoAtualizada);
+  };
+
   return (
     <View>
       <View style={styles.header}>
@@ -44,9 +60,7 @@ const Post = props => {
       </View>
       <Image source={{ uri: foto.urlFoto }} style={styles.postImg} />
       <View style={styles.footer}>
-        <TouchableOpacity
-          onPress={() => setFoto({ ...foto, likeada: !foto.likeada })}
-        >
+        <TouchableOpacity onPress={() => like()}>
           <Image source={loadLikeImage(foto.likeada)} style={styles.likeImg} />
         </TouchableOpacity>
         {renderLikesCount()}
