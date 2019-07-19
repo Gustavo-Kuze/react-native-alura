@@ -13,25 +13,30 @@ import {
   Image,
   Dimensions,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } from "react-native";
 import emptyHeartImg from "../../resources/img/s2.png";
 import likedImg from "../../resources/img/s2-checked.png";
+import sendImg from "../../resources/img/send.png";
 
 const Post = props => {
-  const [foto, setFoto] = useState({ ...props.foto,
-     likers: [{}],
-    comentarios: [{
-      id: "1",
-      login: "Rodiscleiton",
-      texto: "Tu costumava ser bom, cara! Ta uma merda"
-    },
-    {
-      id: "2",
-      login: "Suzana",
-      texto: "Simplesmente fantástica suas fotos! <3"
-    }
-  ] });
+  const [foto, setFoto] = useState({
+    ...props.foto,
+    likers: [{}],
+    comentarios: [
+      {
+        id: "1",
+        login: "Rodiscleiton",
+        texto: "Tu costumava ser bom, cara! Ta uma merda"
+      },
+      {
+        id: "2",
+        login: "Suzana",
+        texto: "Simplesmente fantástica suas fotos! <3"
+      }
+    ]
+  });
 
   const loadLikeImage = liked => (liked ? likedImg : emptyHeartImg);
 
@@ -64,6 +69,14 @@ const Post = props => {
     setFoto(fotoAtualizada);
   };
 
+  const renderComments = () =>
+    foto.comentarios.map(comentario => (
+      <View key={comentario.id}>
+        <Text style={styles.commentTitle}>{comentario.login}</Text>
+        <Text style={styles.comment}>{comentario.texto}</Text>
+      </View>
+    ));
+
   return (
     <View>
       <View style={styles.header}>
@@ -77,13 +90,16 @@ const Post = props => {
         </TouchableOpacity>
         {renderLikesCount()}
         {renderSubtitle()}
-
-        {foto.comentarios.map(comentario => (
-          <View key={comentario.id}>
-            <Text style={styles.commentTitle}>{comentario.login}</Text>
-            <Text style={styles.comment}>{comentario.texto}</Text>
-          </View>
-        ))}
+        {renderComments()}
+        <View
+        style={styles.commentBox}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder="Adicione um comentário"
+          />
+          <Image source={sendImg} style={styles.send} />
+        </View>
       </View>
     </View>
   );
@@ -122,6 +138,22 @@ const styles = StyleSheet.create({
   commentTitle: {
     fontWeight: "bold",
     marginRight: 5
+  },
+  input: {
+    height: 40,
+    flex: 1
+  },
+  send: {
+    height: 30,
+    width: 30
+  },
+  commentBox: {
+    marginTop: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderBottomColor: "#999"
   }
 });
 
