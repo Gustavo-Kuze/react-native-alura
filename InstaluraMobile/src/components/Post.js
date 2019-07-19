@@ -19,7 +19,19 @@ import emptyHeartImg from "../../resources/img/s2.png";
 import likedImg from "../../resources/img/s2-checked.png";
 
 const Post = props => {
-  const [foto, setFoto] = useState({ ...props.foto, likers: [{}] });
+  const [foto, setFoto] = useState({ ...props.foto,
+     likers: [{}],
+    comentarios: [{
+      id: "1",
+      login: "Rodiscleiton",
+      texto: "Tu costumava ser bom, cara! Ta uma merda"
+    },
+    {
+      id: "2",
+      login: "Suzana",
+      texto: "Simplesmente fantástica suas fotos! <3"
+    }
+  ] });
 
   const loadLikeImage = liked => (liked ? likedImg : emptyHeartImg);
 
@@ -30,7 +42,7 @@ const Post = props => {
     ) : null;
   };
 
-  const renderComment = () =>
+  const renderSubtitle = () =>
     foto.comentario !== "" ? (
       <View style={styles.comment}>
         <Text style={styles.commentTitle}>{foto.loginUsuario}</Text>
@@ -64,7 +76,14 @@ const Post = props => {
           <Image source={loadLikeImage(foto.likeada)} style={styles.likeImg} />
         </TouchableOpacity>
         {renderLikesCount()}
-        {renderComment()}
+        {renderSubtitle()}
+
+        {foto.comentarios.map(comentario => (
+          <View key={comentario.id}>
+            <Text style={styles.commentTitle}>{comentario.login}</Text>
+            <Text style={styles.comment}>{comentario.texto}</Text>
+          </View>
+        ))}
       </View>
     </View>
   );
