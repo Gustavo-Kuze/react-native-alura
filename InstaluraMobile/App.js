@@ -29,7 +29,7 @@ class App extends React.Component {
         style={styles.container}
         keyExtractor={(item, i) => String(i)}
         data={this.state.fotos}
-        renderItem={({ item }) => <Post item={item} />}
+        renderItem={({ item }) => <Post foto={item} />}
       />
     );
   }
