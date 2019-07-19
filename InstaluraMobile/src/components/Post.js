@@ -20,13 +20,13 @@ const Post = (props) => {
     <View>
       <View style={styles.header}>
         <Image
-          source={require("../../resources/img/background.jpg")}
+          source={{uri: props.item.urlPerfil}}
           style={styles.profilePic}
         />
-        <Text>{props.item.usuario}</Text>
+        <Text>{props.item.loginUsuario}</Text>
       </View>
       <Image
-        source={require("../../resources/img/background.jpg")}
+        source={{uri: props.item.urlFoto}}
         style={styles.postImg}
       />
     </View>
