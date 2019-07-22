@@ -6,24 +6,15 @@
  * @flow
  */
 
-import React, { useState, useRef } from "react";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-  Text,
-  TouchableOpacity,
-  TextInput
-} from "react-native";
-import emptyHeartImg from "../../resources/img/s2.png";
-import likedImg from "../../resources/img/s2-checked.png";
+import React, { useState } from "react";
+import { StyleSheet, View, Image, Dimensions, Text } from "react-native";
 import InputComentario from "./InputComentario";
+import Likes from "./Likes";
 
 const Post = props => {
   const [foto, setFoto] = useState({
     ...props.foto,
-    likers: [{}],
+    likers: [],
     comentarios: [
       {
         id: "1",
@@ -37,9 +28,8 @@ const Post = props => {
       }
     ]
   });
-  
 
-  const addComment = (commentValue) => {
+  const addComment = commentValue => {
     if (commentValue) {
       const novaLista = [
         ...foto.comentarios,
@@ -56,17 +46,7 @@ const Post = props => {
       };
 
       setFoto(fotoAtualizada);
-
     }
-  };
-
-  const loadLikeImage = liked => (liked ? likedImg : emptyHeartImg);
-
-  const renderLikesCount = () => {
-    if (!foto.likers) return null;
-    return foto.likers.length > 0 ? (
-      <Text style={styles.likes}>{foto.likers.length} curtidas</Text>
-    ) : null;
   };
 
   const renderSubtitle = () =>
@@ -107,13 +87,10 @@ const Post = props => {
       </View>
       <Image source={{ uri: foto.urlFoto }} style={styles.postImg} />
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => like()}>
-          <Image source={loadLikeImage(foto.likeada)} style={styles.likeImg} />
-        </TouchableOpacity>
-        {renderLikesCount()}
+        <Likes like={like} foto={foto}/>
         {renderSubtitle()}
         {renderComments()}
-        <InputComentario addComment={addComment}/>
+        <InputComentario addComment={addComment} />
       </View>
     </View>
   );
@@ -135,16 +112,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get("screen").width,
     width: Dimensions.get("screen").width
   },
-  likeImg: {
-    marginBottom: 10,
-    width: 40,
-    height: 40
-  },
   footer: {
     margin: 10
-  },
-  likes: {
-    fontWeight: "bold"
   },
   comment: {
     flexDirection: "row"
