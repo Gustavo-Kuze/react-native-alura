@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Platform } from "react-native";
 import Post from "./src/components/Post";
 
 class App extends React.Component {
@@ -37,7 +37,7 @@ class App extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20
+    marginTop: Platform.OS === "ios" ? 20 : 0
   }
 });
 
