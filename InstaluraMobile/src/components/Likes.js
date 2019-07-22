@@ -14,7 +14,7 @@ const Likes = props => {
 
   return (
     <View>
-      <TouchableOpacity onPress={props.like}>
+      <TouchableOpacity onPress={() => props.like(foto.id)}>
         <Image source={loadLikeImage(foto.likeada)} style={styles.likeImg} />
       </TouchableOpacity>
       {renderLikesCount()}

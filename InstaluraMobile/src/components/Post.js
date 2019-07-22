@@ -19,7 +19,7 @@ const Post = props => {
       {
         id: "1",
         login: "Rodiscleiton",
-        texto: "Tu costumava ser bom, cara! Ta uma merda"
+        texto: "Tu costumava ser bom, cara!"
       },
       {
         id: "2",
@@ -57,19 +57,6 @@ const Post = props => {
       </View>
     ) : null;
 
-  const like = () => {
-    let novaLista = [];
-    if (!foto.likeada) novaLista = [...foto.likers, { login: "meuUser" }];
-    else novaLista = foto.likers.filter(liker => liker.login !== "meuUser");
-
-    const fotoAtualizada = {
-      ...foto,
-      likeada: !foto.likeada,
-      likers: novaLista
-    };
-
-    setFoto(fotoAtualizada);
-  };
 
   const renderComments = () =>
     foto.comentarios.map(comentario => (
@@ -87,7 +74,7 @@ const Post = props => {
       </View>
       <Image source={{ uri: foto.urlFoto }} style={styles.postImg} />
       <View style={styles.footer}>
-        <Likes like={like} foto={foto}/>
+        <Likes like={props.like} foto={props.foto}/>
         {renderSubtitle()}
         {renderComments()}
         <InputComentario addComment={addComment} />
