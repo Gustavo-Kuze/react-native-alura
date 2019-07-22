@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import emptyHeartImg from "../../resources/img/s2.png";
 import likedImg from "../../resources/img/s2-checked.png";
-import sendImg from "../../resources/img/send.png";
+import InputComentario from "./InputComentario";
 
 const Post = props => {
   const [foto, setFoto] = useState({
@@ -37,10 +37,28 @@ const Post = props => {
       }
     ]
   });
+  
 
-  const [currentCommentValue, setCurrentCommentValue] = useState("");
+  const addComment = (commentValue) => {
+    if (commentValue) {
+      const novaLista = [
+        ...foto.comentarios,
+        {
+          id: commentValue,
+          login: "meuUser",
+          texto: commentValue
+        }
+      ];
 
-  let inputComentario = useRef(null);
+      const fotoAtualizada = {
+        ...foto,
+        comentarios: novaLista
+      };
+
+      setFoto(fotoAtualizada);
+
+    }
+  };
 
   const loadLikeImage = liked => (liked ? likedImg : emptyHeartImg);
 
@@ -81,29 +99,6 @@ const Post = props => {
       </View>
     ));
 
-  const addComment = () => {
-    if (currentCommentValue) {
-      const novaLista = [
-        ...foto.comentarios,
-        {
-          id: currentCommentValue,
-          login: "meuUser",
-          texto: currentCommentValue
-        }
-      ];
-
-      const fotoAtualizada = {
-        ...foto,
-        comentarios: novaLista
-      };
-
-      setFoto(fotoAtualizada);
-
-      inputComentario.current.clear();
-      setCurrentCommentValue("");
-    }
-  };
-
   return (
     <View>
       <View style={styles.header}>
@@ -118,17 +113,7 @@ const Post = props => {
         {renderLikesCount()}
         {renderSubtitle()}
         {renderComments()}
-        <View style={styles.commentBox}>
-          <TextInput
-            style={styles.input}
-            placeholder="Adicione um comentário"
-            ref={inputComentario}
-            onChangeText={text => setCurrentCommentValue(text)}
-          />
-          <TouchableOpacity onPress={() => addComment()}>
-            <Image source={sendImg} style={styles.send} />
-          </TouchableOpacity>
-        </View>
+        <InputComentario addComment={addComment}/>
       </View>
     </View>
   );
@@ -167,22 +152,6 @@ const styles = StyleSheet.create({
   commentTitle: {
     fontWeight: "bold",
     marginRight: 5
-  },
-  input: {
-    height: 40,
-    flex: 1
-  },
-  send: {
-    height: 30,
-    width: 30
-  },
-  commentBox: {
-    marginTop: 5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottomWidth: 1,
-    borderBottomColor: "#999"
   }
 });
 
