@@ -8,22 +8,22 @@
 
 import React from "react";
 import { StyleSheet, FlatList, Platform } from "react-native";
-import Post from "./src/components/Post";
+import Post from "./Post";
 
 class App extends React.Component {
   state = {
     fotos: []
-  }
-  
-  componentDidMount(){
+  };
+
+  componentDidMount() {
     fetch("https://instalura-api.herokuapp.com/api/public/fotos/rafael")
-    .then(data => data.json())
-    .then(fotos => {
-      this.setState({...this.state, fotos})
-    });
+      .then(data => data.json())
+      .then(fotos => {
+        this.setState({ ...this.state, fotos });
+      });
   }
 
-  like = (fotoId) => {
+  like = fotoId => {
     const foto = this.state.fotos.find(foto => foto.id === fotoId);
     let novaLista = [];
     if (!foto.likeada) novaLista = [...foto.likers, { login: "meuUser" }];
@@ -34,10 +34,12 @@ class App extends React.Component {
       likeada: !foto.likeada,
       likers: novaLista
     };
-    
-    let fotosAtualizadas = this.state.fotos.map(f => f.id === fotoId ? fotoAtualizada : f);
-    
-    this.setState({...this.state, fotos: fotosAtualizadas});
+
+    let fotosAtualizadas = this.state.fotos.map(f =>
+      f.id === fotoId ? fotoAtualizada : f
+    );
+
+    this.setState({ ...this.state, fotos: fotosAtualizadas });
   };
 
   render() {
@@ -46,7 +48,7 @@ class App extends React.Component {
         style={styles.container}
         keyExtractor={(item, i) => String(i)}
         data={this.state.fotos}
-        renderItem={({ item }) => <Post foto={item} like={this.like}/>}
+        renderItem={({ item }) => <Post foto={item} like={this.like} />}
       />
     );
   }
