@@ -12,6 +12,10 @@ import {
 const width = Dimensions.get("screen").width;
 
 class Login extends Component {
+  static navigationOptions = {
+    title: "Login"
+  };
+
   state = {
     usuario: "",
     senha: "",
@@ -41,6 +45,7 @@ class Login extends Component {
         AsyncStorage.setItem("token", token);
         AsyncStorage.setItem("usuario", this.state.usuario);
 
+        this.props.navigation.navigate("Feed", { token });
         return AsyncStorage.getItem("token");
       })
       .catch(err => {

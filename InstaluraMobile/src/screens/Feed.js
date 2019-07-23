@@ -8,9 +8,12 @@
 
 import React from "react";
 import { StyleSheet, FlatList, Platform } from "react-native";
-import Post from "./Post";
+import Post from "../components/Post";
 
 class App extends React.Component {
+  static navigationOptions = {
+    title: 'Feed',
+  };
   state = {
     fotos: []
   };
@@ -21,6 +24,7 @@ class App extends React.Component {
       .then(fotos => {
         this.setState({ ...this.state, fotos });
       });
+      console.warn(this.props.navigation.getParam("token", "token não encontrado"));
   }
 
   like = fotoId => {
